@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 10:22:49 by hstander          #+#    #+#             */
-/*   Updated: 2017/07/31 13:06:16 by hstander         ###   ########.fr       */
+/*   Updated: 2017/08/01 13:56:58 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	main(int ac, char **av)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	line = NULL;
-	if (ac !=  2)
-		exit (0);
+	if (ac != 2)
+		exit(0);
 	else
 	{
 		fd = open(av[1], O_RDONLY);
@@ -28,10 +28,17 @@ int	main(int ac, char **av)
 			ft_putstr(line);
 			ft_putchar('\n');
 			if (line != NULL)
+			{
 				free(line);
+				line = NULL;
+			}
 		}
+		close(fd);
 		if (line != NULL)
+		{
 			free(line);
+			line = NULL;
+		}
 	}
 	return (0);
 }

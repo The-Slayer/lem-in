@@ -1,6 +1,6 @@
 NAME = lem-in
 
-SRC = 	main.c	\
+SRC = 	main.c	datastruct.c\
 
 LIBS = -L./libft/ -lft
 
