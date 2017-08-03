@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 09:50:30 by hstander          #+#    #+#             */
-/*   Updated: 2017/08/03 14:14:31 by hstander         ###   ########.fr       */
+/*   Updated: 2017/08/03 16:53:26 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,59 +49,82 @@ int		main(void)
 	ag.rooms[start]->full = vs.ants;
 	while (ag.rooms[end]->full < vs.ants)
 	{
-		if (ants_n[i] != '\0' && ants_n[i] == 'e')
+		while (ants_n[i] != '\0' && ants_n[i] == 'e')
 			i++;
 		j = 0;
-		while (ag.rooms[start]->room[j])
+		while (ag.rooms[start]->room[j] && ag.rooms[start]->full > 0)
 		{
 			if (ag.rooms[start]->room[j]->full == 0)
 			{
 				if (ag.rooms[start]->room[j]->name == ag.rooms[end]->name)
+				{
 					ag.rooms[start]->room[j]->full += 1;
+					ag.rooms[start]->full -= 1;
+				}
 				else
+				{
+			printf("§§§§§ %d §§§§§\n", ag.rooms[start]->full);
 					ag.rooms[start]->room[j]->full = 1;
+			printf("§§§§§ %d §§§§§\n", ag.rooms[start]->full);
+					ag.rooms[start]->full -= 1;
+			printf("§§§§§ %d §§§§§\n", ag.rooms[start]->full);
+				}
 				ag.rooms[start]->room[j]->ant = ants_n[i];
 				ants_n[i] = 'e';
-				i++;
+			//	i++;
 				printf("-->L%c-%s ", ag.rooms[start]->room[j]->ant, ag.rooms[start]->room[j]->name);
 			}
-			else if (ag.rooms[start]->room[j]->name == ag.rooms[end]->name)
+			else if (ft_strequ(ag.rooms[start]->room[j]->name, ag.rooms[end]->name))
 			{
 				ag.rooms[end]->full += 1;
-				printf("L%c-%s ", ag.rooms[start]->room[j]->ant, ag.rooms[start]->room[j]->name);
+				printf("++L%c-%s ", ag.rooms[start]->room[j]->ant, ag.rooms[start]->room[j]->name);
 			}
 			j++;
 		}
+		printf("\n");
+			printf("++§§§§§ %d §§§§§\n", ag.rooms[start]->full);
+		printf("\n");
+	
 		k = 0;
+		int test = 0;
 		while (ag.rooms[k])
 		{
-			if (ag.rooms[k]->full != 0 && (ag.rooms[k]->name != ag.rooms[end]->name || ag.rooms[k]->name != ag.rooms[start]->name))
+			if (ag.rooms[k]->full != 0 && ag.rooms[k]->end == 0 && ag.rooms[k]->start == 0)
 			{
+			printf("=== %s ===\n", ag.rooms[k]->name);
 				j = 0;
 				while (ag.rooms[k]->room[j])
 				{
-					if (ag.rooms[k]->room[j]->full == 0)
+					if (ag.rooms[k]->room[j]->full == 0 && ag.rooms[k]->room[j]->start == 0)
 					{
-						if (ag.rooms[k]->room[j]->name == ag.rooms[end]->name)
+						if (ft_strequ(ag.rooms[k]->room[j]->name, ag.rooms[end]->name))
 							ag.rooms[k]->room[j]->full += 1;
 						else
 							ag.rooms[k]->room[j]->full = 1;
 						ag.rooms[k]->room[j]->ant = ag.rooms[k]->ant;
 						ag.rooms[k]->full = 0;
-						printf("L%c-%s ", ag.rooms[k]->room[j]->ant, ag.rooms[k]->room[j]->name);
+						printf(">>>>L%c-%s ", ag.rooms[k]->room[j]->ant, ag.rooms[k]->room[j]->name);
+						test = 1;
+						break ;
 					}
-					else if (ag.rooms[k]->room[j]->name == ag.rooms[end]->name)
+					else if (ft_strequ(ag.rooms[k]->room[j]->name, ag.rooms[end]->name))
 					{
 						ag.rooms[k]->full = 0;
 						ag.rooms[end]->full += 1;
-						printf("L%c-%s ", ag.rooms[k]->room[j]->ant, ag.rooms[k]->room[j]->name);
+						printf("<<<L%c-%s ", ag.rooms[k]->room[j]->ant, ag.rooms[k]->room[j]->name);
+						test = 1;
+						break ;
 					}
 					j++;
 				}
 			}
+			
+			if (test == 1)
+				break;
 			k++;
 		}
-		printf("\n");
+			printf("---- §§§§§ %d §§§§§\n", ag.rooms[start]->full);
+		printf("\n----\n");
 /*		else 
 		{
 			while (ag.rooms[k].name != ag.rooms[start].room[j].name)
