@@ -33,9 +33,6 @@ void	ft_frees(t_args *ag)
 
 void	ft_rooms(t_vars *vs, t_args *ag)
 {
-	int	i;
-
-	i = 0;
 	ag->rooms[vs->r_i] = (t_room *)ft_memalloc(sizeof(t_room));
 	ag->rooms[vs->r_i]->name = ft_strdup(ag->args[0]);
 	if (vs->start == 1)

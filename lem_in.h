@@ -19,6 +19,7 @@ typedef	struct s_room	t_room;
 struct					s_room
 {
 	char				*name;
+    char                *flag;
 	int					start;
 	int					end;
 	char				ant;

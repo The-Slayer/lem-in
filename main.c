@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "lem_in.h"
+//#include "./libft/libft.h"
+#include <stdio.h>
 
 int		main(void)
 {
@@ -47,6 +49,10 @@ int		main(void)
 	while (ag.rooms[end]->end == 0)
 		end++;
 	ag.rooms[start]->full = vs.ants;
+
+    int test = 0;
+
+
 	while (ag.rooms[end]->full < vs.ants)
 	{
 		while (ants_n[i] != '\0' && ants_n[i] == 'e')
@@ -63,15 +69,12 @@ int		main(void)
 				}
 				else
 				{
-			printf("§§§§§ %d §§§§§\n", ag.rooms[start]->full);
 					ag.rooms[start]->room[j]->full = 1;
-			printf("§§§§§ %d §§§§§\n", ag.rooms[start]->full);
 					ag.rooms[start]->full -= 1;
-			printf("§§§§§ %d §§§§§\n", ag.rooms[start]->full);
 				}
 				ag.rooms[start]->room[j]->ant = ants_n[i];
 				ants_n[i] = 'e';
-			//	i++;
+				i++;
 				printf("-->L%c-%s ", ag.rooms[start]->room[j]->ant, ag.rooms[start]->room[j]->name);
 			}
 			else if (ft_strequ(ag.rooms[start]->room[j]->name, ag.rooms[end]->name))
@@ -81,49 +84,47 @@ int		main(void)
 			}
 			j++;
 		}
-		printf("\n");
-			printf("++§§§§§ %d §§§§§\n", ag.rooms[start]->full);
-		printf("\n");
 	
 		k = 0;
-		int test = 0;
+        test = 0;
 		while (ag.rooms[k])
 		{
 			if (ag.rooms[k]->full != 0 && ag.rooms[k]->end == 0 && ag.rooms[k]->start == 0)
 			{
-			printf("=== %s ===\n", ag.rooms[k]->name);
 				j = 0;
 				while (ag.rooms[k]->room[j])
 				{
-					if (ag.rooms[k]->room[j]->full == 0 && ag.rooms[k]->room[j]->start == 0)
+					if (ag.rooms[k]->room[j]->full == 0 && ag.rooms[k]->room[j]->start == 0 && ft_strequ(ag.rooms[k]->room[j]->flag, ag.rooms[k]->name) == 0)
 					{
 						if (ft_strequ(ag.rooms[k]->room[j]->name, ag.rooms[end]->name))
+                        {
 							ag.rooms[k]->room[j]->full += 1;
-						else
-							ag.rooms[k]->room[j]->full = 1;
+						}
+                        else
+						    ag.rooms[k]->room[j]->full = 1;
 						ag.rooms[k]->room[j]->ant = ag.rooms[k]->ant;
 						ag.rooms[k]->full = 0;
+                        ag.rooms[k]->flag = ft_strdup(ag.rooms[k]->room[j]->name);
 						printf(">>>>L%c-%s ", ag.rooms[k]->room[j]->ant, ag.rooms[k]->room[j]->name);
-						test = 1;
+                        test = 1;
 						break ;
 					}
 					else if (ft_strequ(ag.rooms[k]->room[j]->name, ag.rooms[end]->name))
 					{
 						ag.rooms[k]->full = 0;
 						ag.rooms[end]->full += 1;
+                        ag.rooms[k]->room[j]->ant = ag.rooms[k]->ant;
 						printf("<<<L%c-%s ", ag.rooms[k]->room[j]->ant, ag.rooms[k]->room[j]->name);
-						test = 1;
+                        test = 1;
 						break ;
 					}
 					j++;
 				}
 			}
-			
-			if (test == 1)
-				break;
+            if (test == 1)
+                break;
 			k++;
 		}
-			printf("---- §§§§§ %d §§§§§\n", ag.rooms[start]->full);
 		printf("\n----\n");
 /*		else 
 		{
@@ -134,6 +135,7 @@ int		main(void)
 
 		}
 */	}
+	printf("name = %s full = %d\n", ag.rooms[end]->name, ag.rooms[end]->full);
 	printf("name = %s full = %d\n", ag.rooms[start]->name, ag.rooms[start]->full);
 	
 	return (0);
