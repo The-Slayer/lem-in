@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 09:51:38 by hstander          #+#    #+#             */
-/*   Updated: 2017/08/01 16:10:43 by hstander         ###   ########.fr       */
+/*   Updated: 2017/08/11 17:07:16 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ struct					s_room
 	int					end;
 	char				ant;
 	int					full;
+	int					visit;
 	t_room				*room[10000];
 };
 
@@ -46,6 +47,18 @@ typedef struct			s_vars
 	int					ants;
 }						t_vars;
 
+typedef struct			s_path
+{
+	char				*data;
+	struct s_path		*next;
+}						t_path;
+
+typedef struct			s_ant
+{
+	char				*name;
+	char				*path;
+	int					index;
+}						t_ant;
 void					ft_frees(t_args *ag);
 void					ft_rooms(t_vars *vs, t_args *ag);
 void					ft_links(t_vars *vs, t_args *ag);
