@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 09:50:30 by hstander          #+#    #+#             */
-/*   Updated: 2017/08/11 17:07:28 by hstander         ###   ########.fr       */
+/*   Updated: 2017/08/11 17:25:02 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,18 @@ void	ft_sort(char **arr)
 		i++;
 	}
 }
+i/*
+void	ft_nextmove(t_ant *ant, char **paths)
+{
+	int		i;
 
+	i = 0;
+	while (paths[i])
+	{
+		if (paths[i][index], )
+	}
+}
+*/
 int		main(void)
 {
 	t_vars	vs;
@@ -99,6 +110,7 @@ int		main(void)
 	{
 		ants_n[i] = (t_ant *)ft_memalloc(sizeof(t_ant));
 		ants_n[i]->name = ft_itoa(i + 1);
+		ants_n[i]->index = 1;
 		i++;
 	}
 	i = 0;

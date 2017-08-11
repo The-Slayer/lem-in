@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 09:51:38 by hstander          #+#    #+#             */
-/*   Updated: 2017/08/11 17:07:16 by hstander         ###   ########.fr       */
+/*   Updated: 2017/08/11 17:24:58 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct			s_ant
 	char				*path;
 	int					index;
 }						t_ant;
+
 void					ft_frees(t_args *ag);
 void					ft_rooms(t_vars *vs, t_args *ag);
 void					ft_links(t_vars *vs, t_args *ag);
