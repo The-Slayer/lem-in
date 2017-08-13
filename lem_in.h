@@ -56,8 +56,9 @@ typedef struct			s_path
 typedef struct			s_ant
 {
 	char				*name;
-	char				*path;
-	int					index;
+    char                *room;
+    int                 at_end;
+	unsigned int		index;
 }						t_ant;
 
 void					ft_frees(t_args *ag);

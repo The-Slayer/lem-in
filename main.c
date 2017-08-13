@@ -30,6 +30,7 @@ void	ft_path(t_room *start, t_path *head, t_path *list, int fd)
 		while (head && head->data)
 		{
 			write(fd, head->data, ft_strlen(head->data));
+            write(fd, " ", 1);
 			head = head->next;
 		}
 		write(fd, "\n", ft_strlen("\n"));
@@ -47,9 +48,20 @@ void	ft_path(t_room *start, t_path *head, t_path *list, int fd)
 	start->visit = 0;
 }
 
-void	ft_sort(char **arr)
+size_t  ft_arrlen(char **arr)
 {
-	char *ptr;
+    size_t  i;
+
+    i = 0;
+    while (arr[i])
+        i++;
+    return (i);
+}
+
+
+void	ft_sort(char ***arr)
+{
+	char **ptr;
 	int i;
 	int j;
 
@@ -60,7 +72,7 @@ void	ft_sort(char **arr)
 		j = i + 1;
 		while (arr[j])
 		{
-			if (ft_strlen(arr[i]) > ft_strlen(arr[j]))
+			if (ft_arrlen(arr[i]) > ft_arrlen(arr[j]))
 			{
 				ptr = arr[i];
 				arr[i] = arr[j];
@@ -71,7 +83,7 @@ void	ft_sort(char **arr)
 		i++;
 	}
 }
-i/*
+/*
 void	ft_nextmove(t_ant *ant, char **paths)
 {
 	int		i;
@@ -83,6 +95,7 @@ void	ft_nextmove(t_ant *ant, char **paths)
 	}
 }
 */
+
 int		main(void)
 {
 	t_vars	vs;
@@ -111,6 +124,8 @@ int		main(void)
 		ants_n[i] = (t_ant *)ft_memalloc(sizeof(t_ant));
 		ants_n[i]->name = ft_itoa(i + 1);
 		ants_n[i]->index = 1;
+        ants_n[i]->room = ag.rooms[start]->name;
+        ants_n[i]->at_end = 0;
 		i++;
 	}
 	i = 0;
@@ -133,29 +148,120 @@ int		main(void)
 	list = (t_path *)ft_memalloc(sizeof(t_path));
 	ft_path(ag.rooms[start], list, list, fd);
 	
-	char	**paths;
+	char	***paths;
 	char	*line;
 	
 	close (fd);
 	fd = open("path", O_RDWR);
-	paths = (char **)ft_memalloc(sizeof(char *) * 10000);
+	paths = (char ***)ft_memalloc(sizeof(char **) * 10000);
 	line = NULL;
 	while (get_next_line(fd, &line))
 	{
-		paths[j] = ft_strdup(line);
+		paths[j] = ft_strsplit(line, ' ');
 		j++;
 	}
 	ft_sort(paths);
 	j = 0;
-	while (paths[j])
+/*	while (paths[j])
 	{
-		ft_putendl(paths[j]);
+        i = 0;
+        while (paths[j][i])
+        {
+		    ft_putstr(paths[j][i]);
+            i++;
+        }
+        ft_putchar('\n');
 		j++;
 	}
 	ft_putchar('\n');
 	ft_putchar('\n');
 	ft_putchar('\n');
-	close (fd);
+*/	close (fd);
+    int l;
+    int move;
+    l = 0;
+    move = 0;
+    while (ag.rooms[end]->full < vs.ants)
+    {
+        j = 0;
+        while (ants_n[j])
+        {
+            i = 0;
+            if (ants_n[j]->at_end != 1)
+            {
+                while (paths[i])
+                {
+                    k = 0;
+                    if (ants_n[j]->index < ft_arrlen(paths[i]))
+                    {
+                        while (ag.rooms[k])
+                        {
+                   // dprintf(2,"Test 1");
+                    
+                    //dprintf(2,"Test 2");
+                            if ((ft_strcmp(paths[i][ants_n[j]->index], ag.rooms[k]->name) == 0) && (ft_strcmp(paths[i][ants_n[j]->index - 1], ants_n[j]->room) == 0))
+                            {
+                                if (ag.rooms[k]->full == 0 && ag.rooms[k]->end == 0)
+                                {
+                             /*   if (ag.rooms[k]->end == 1)
+                                    ants_n[j]->at_end = 1;
+                             */     ag.rooms[k]->full += 1;
+                                    ants_n[j]->room = ag.rooms[k]->name;
+                                    printf("L%s-%s ", ants_n[j]->name, ag.rooms[k]->name);
+                    //dprintf(2,"Test 3");
+                                    l = 0;
+                                    move = 1;
+                                    while (ag.rooms[l])
+                                    {
+                                        if (ft_strcmp(paths[i][ants_n[j]->index - 1], ag.rooms[l]->name) == 0)
+                                        {
+                                            ag.rooms[l]->full -= 1;
+                                            break;
+                                        }
+                                        l++;
+                                    }
+                                    ants_n[j]->index += 1;
+                                    break ;
+                                }
+                                else if (ag.rooms[k]->end == 1)
+                                {
+                                    ants_n[j]->at_end = 1;
+                                    ag.rooms[k]->full += 1;
+                                    ants_n[j]->room = ag.rooms[k]->name;
+                                    printf("L%s-%s ", ants_n[j]->name, ag.rooms[k]->name);
+                    //dprintf(2,"Test 3");
+                                    l = 0;
+                                    move = 1;
+                                    while (ag.rooms[l])
+                                    {
+                                        if (ft_strcmp(paths[i][ants_n[j]->index - 1], ag.rooms[l]->name) == 0)
+                                        {
+                                            ag.rooms[l]->full -= 1;
+                                            break;
+                                        }
+                                        l++;
+                                    }
+                                    ants_n[j]->index += 1;
+                                    break ;
+                                }
+                            }
+                            k++;
+                        }
+                    }
+                    if (move == 1)
+                    {
+                        move = 0;
+                        break ;
+                    }
+                    i++;
+                }
+            }
+            j++;
+        }
+        printf("\n");
+        //ft_putstr("\n");
+    }
+
 /*
 	i = 0;
 	j = 0;

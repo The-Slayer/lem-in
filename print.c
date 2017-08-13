@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "./libft/libft.h"
 #include "lem_in.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
