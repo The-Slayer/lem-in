@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/16 15:56:27 by hstander          #+#    #+#             */
-/*   Updated: 2017/07/17 14:48:29 by hstander         ###   ########.fr       */
+/*   Updated: 2017/08/13 15:54:22 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ int		fill_buf(const int fd, char **ptr)
 	if (ret > 0)
 	{
 		newstr = ft_strjoin(*ptr, buf);
-		free(buf);
 		free(*ptr);
 		*ptr = newstr;
 	}
+	if (buf)
+		free(buf);
 	return (ret);
 }
 

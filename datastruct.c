@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/01 13:42:31 by hstander          #+#    #+#             */
-/*   Updated: 2017/08/01 17:33:57 by hstander         ###   ########.fr       */
+/*   Updated: 2017/08/13 17:21:29 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	ft_frees(t_args *ag)
 
 void	ft_rooms(t_vars *vs, t_args *ag)
 {
+	if (ft_arrlen(ag->args) > 3)
+		ft_exit();
 	ag->rooms[vs->r_i] = (t_room *)ft_memalloc(sizeof(t_room));
 	ag->rooms[vs->r_i]->name = ft_strdup(ag->args[0]);
 	if (vs->start == 1)
@@ -56,6 +58,8 @@ void	ft_links(t_vars *vs, t_args *ag)
 	j = 0;
 	i = 0;
 	ag->links = ft_strsplit(ag->args[0], '-');
+	if (ft_arrlen(ag->links) > 2)
+		ft_exit();
 	vs->b_i = 0;
 	while (ft_strcmp(ag->rooms[vs->b_i]->name, ag->links[0]) != 0)
 		vs->b_i++;
@@ -82,7 +86,7 @@ void	ft_datastruct(t_vars *vs, t_args *ag)
 {
 	while (get_next_line(0, &ag->line) != 0)
 	{
-		if ((vs->cntr < 1) && (ft_isdigit(ag->line[0]) == 1))
+		if ((vs->cntr < 1) && (ft_digit(ag) == 1))
 		{
 			vs->ants = ft_atoi(ag->line);
 			vs->cntr++;
@@ -94,7 +98,9 @@ void	ft_datastruct(t_vars *vs, t_args *ag)
 			else
 			{
 				ag->args = ft_strsplit(ag->line, ' ');
-				if (ag->args[1] == NULL)
+				if (ag->args[0] == '\0')
+					ft_exit();
+				else if (ag->args[1] == NULL)
 					ft_links(vs, ag);
 				else
 					ft_rooms(vs, ag);
