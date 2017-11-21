@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/01 13:42:31 by hstander          #+#    #+#             */
-/*   Updated: 2017/11/21 14:56:58 by hstander         ###   ########.fr       */
+/*   Updated: 2017/11/21 15:03:26 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,12 @@ void	ft_links(t_vars *vs, t_args *ag)
 	while (ft_strcmp(ag->rooms[vs->e_i]->name, ag->links[1]) != 0)
 		if (ag->rooms[++vs->e_i] == NULL)
 			ft_exit();
-	if (ag->rooms[vs->b_i] && ag->rooms[vs->e_i])
-	{
-		while (ag->rooms[vs->b_i]->room[i])
-			i++;
-		while (ag->rooms[vs->e_i]->room[j])
-			j++;
-	
-		ag->rooms[vs->b_i]->room[i] = ag->rooms[vs->e_i];
-		ag->rooms[vs->e_i]->room[j] = ag->rooms[vs->b_i];
-	}
+	while (ag->rooms[vs->b_i]->room[i])
+		i++;
+	while (ag->rooms[vs->e_i]->room[j])
+		j++;
+	ag->rooms[vs->b_i]->room[i] = ag->rooms[vs->e_i];
+	ag->rooms[vs->e_i]->room[j] = ag->rooms[vs->b_i];
 }
 
 void	ft_startend(t_vars *vs, t_args *ag)
