@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 09:50:30 by hstander          #+#    #+#             */
-/*   Updated: 2017/08/13 17:17:59 by hstander         ###   ########.fr       */
+/*   Updated: 2017/11/21 15:55:22 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ void	ft_start_end(t_vars *vs, t_args *ag)
 	vs->start = 0;
 	vs->end = 0;
 	while (ag->rooms[vs->start]->start == 0)
-		vs->start++;
+		if (ag->rooms[++vs->start] == NULL)
+			ft_exit();
 	while (ag->rooms[vs->end]->end == 0)
-		vs->end++;
+		if (ag->rooms[++vs->end] == NULL)
+			ft_exit();
 	ag->rooms[vs->start]->full = vs->ants;
 }
 
