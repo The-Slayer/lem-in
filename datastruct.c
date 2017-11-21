@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/01 13:42:31 by hstander          #+#    #+#             */
-/*   Updated: 2017/08/13 17:21:29 by hstander         ###   ########.fr       */
+/*   Updated: 2017/11/21 14:32:14 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,21 @@ void	ft_links(t_vars *vs, t_args *ag)
 
 	j = 0;
 	i = 0;
-	ag->links = ft_strsplit(ag->args[0], '-');
-	if (ft_arrlen(ag->links) > 2)
-		ft_exit();
 	vs->b_i = 0;
+	vs->e_i = 0;
+	ag->links = ft_strsplit(ag->args[0], '-');
+	if (ft_arrlen(ag->links) > 2 || ag->rooms[vs->e_i] == NULL || 
+			ag->rooms[vs->b_i] == NULL)
+		ft_exit();
 	while (ft_strcmp(ag->rooms[vs->b_i]->name, ag->links[0]) != 0)
 		vs->b_i++;
-	vs->e_i = 0;
 	while (ft_strcmp(ag->rooms[vs->e_i]->name, ag->links[1]) != 0)
 		vs->e_i++;
 	while (ag->rooms[vs->b_i]->room[i])
 		i++;
 	while (ag->rooms[vs->e_i]->room[j])
 		j++;
+	
 	ag->rooms[vs->b_i]->room[i] = ag->rooms[vs->e_i];
 	ag->rooms[vs->e_i]->room[j] = ag->rooms[vs->b_i];
 }
