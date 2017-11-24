@@ -6,7 +6,7 @@
 /*   By: hstander <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/01 13:42:31 by hstander          #+#    #+#             */
-/*   Updated: 2017/11/21 15:03:26 by hstander         ###   ########.fr       */
+/*   Updated: 2017/11/24 14:46:24 by hstander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,13 @@ void	ft_links(t_vars *vs, t_args *ag)
 
 void	ft_startend(t_vars *vs, t_args *ag)
 {
-	if (ft_strstr(ag->line, "start") != NULL)
-		vs->start = 1;
-	else if (ft_strstr(ag->line, "end") != NULL)
-		vs->end = 1;
+	if (ag->line[1] == '#')
+	{
+		if (ft_strstr(ag->line, "start") != NULL)
+			vs->start = 1;
+		else if (ft_strstr(ag->line, "end") != NULL)
+			vs->end = 1;
+	}
 }
 
 void	ft_datastruct(t_vars *vs, t_args *ag)
